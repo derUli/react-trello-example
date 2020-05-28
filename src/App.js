@@ -5,19 +5,6 @@ import Board from 'react-trello/dist'
 
 const data = require('./data.json')
 
-const handleDragStart = (cardId, laneId) => {
-  console.log('drag started')
-  console.log(`cardId: ${cardId}`)
-  console.log(`laneId: ${laneId}`)
-}
-
-const handleDragEnd = (cardId, sourceLaneId, targetLaneId) => {
-  console.log('drag ended')
-  console.log(`cardId: ${cardId}`)
-  console.log(`sourceLaneId: ${sourceLaneId}`)
-  console.log(`targetLaneId: ${targetLaneId}`)
-}
-
 class App extends Component {
   state = { boardData: { lanes: [] } }
 
@@ -25,9 +12,34 @@ class App extends Component {
     this.setState({ eventBus })
   }
 
+  dragging = false
+
+  handleDragStart = (cardId, laneId) => {
+    console.log('drag started')
+    console.log(`cardId: ${cardId}`)
+    console.log(`laneId: ${laneId}`)
+    this.dragging = true
+  }
+
+  handleDragEnd = (cardId, sourceLaneId, targetLaneId) => {
+    console.log('drag ended')
+    console.log(`cardId: ${cardId}`)
+    console.log(`sourceLaneId: ${sourceLaneId}`)
+    console.log(`targetLaneId: ${targetLaneId}`)
+    this.dragging = false
+  }
+
+
   async componentWillMount() {
     const response = await this.getBoard()
     this.setState({ boardData: response })
+  }
+
+  onTouchMove(event) {
+    console.log('touch move')
+    if(!this.dragging){
+      event.preventDefault()
+    }
   }
 
   getBoard() {
@@ -79,7 +91,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div className="App" onTouchMove={ this.onTouchMove }>
         <div className="App-header">
           <h3>React Trello Demo</h3>
         </div>
@@ -97,8 +109,8 @@ class App extends Component {
             draggable
             onDataChange={this.shouldReceiveNewData}
             eventBusHandle={this.setEventBus}
-            handleDragStart={handleDragStart}
-            handleDragEnd={handleDragEnd}
+            handleDragStart={this.handleDragStart}
+            handleDragEnd={this.handleDragEnd}
           />
         </div>
       </div>
