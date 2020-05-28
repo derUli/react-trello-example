@@ -1,7 +1,7 @@
 import './App.css'
 
 import React, { Component } from 'react'
-import Board from 'react-trello'
+import Board from 'react-trello/dist'
 
 const data = require('./data.json')
 
