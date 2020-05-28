@@ -91,7 +91,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App" onMouseDown={ this.onTouchMove }>
+      <div className="App" onTouchMove={ this.onTouchMove }>
         <div className="App-header">
           <h3>React Trello Demo</h3>
         </div>
