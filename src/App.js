@@ -35,13 +35,6 @@ class App extends Component {
     this.setState({ boardData: response })
   }
 
-  onTouchMove = (event) => {
-    console.log('touch move')
-    if(!this.dragging){
-      event.preventDefault()
-    }
-  }
-
   getBoard() {
     return new Promise((resolve) => {
       resolve(data)
@@ -91,7 +84,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App" onTouchMove={ this.onTouchMove }>
+      <div className="App">
         <div className="App-header">
           <h3>React Trello Demo</h3>
         </div>
